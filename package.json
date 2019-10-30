@@ -1,31 +1,65 @@
 {
-  "name": "app",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "react": "^16.10.2",
-    "react-dom": "^16.10.2",
-    "react-scripts": "3.2.0"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+    "name": "app",
+    "version": "0.1.0",
+    "private": true,
+    "main": "src/electron.js",
+    "homepage": "./",
+    "scripts": {
+        "dev": "concurrently \"BROWSER=none yarn react-scripts-start\" \"wait-on http://localhost:3000 && electron .\"",
+        "build": "yarn run react-scripts-build && yarn run cp-electronjs && yarn run electron-build",
+        "react-scripts-start": "react-scripts start",
+        "react-scripts-build": "NODE_ENV=production react-scripts build",
+        "cp-electronjs": "cp src/electron.js build/electron.js",
+        "electron-build": "./node_modules/.bin/electron-builder --macos",
+        "express": "node src/server.js",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "cors": "^2.8.5",
+        "electron-is-dev": "^1.1.0",
+        "express": "^4.17.1",
+        "prismjs": "^1.17.1",
+        "react": "^16.10.2",
+        "react-dom": "^16.10.2",
+        "react-scripts": "3.2.0"
+    },
+    "devDependencies": {
+        "concurrently": "^4.1.2",
+        "electron": "^6.0.11",
+        "electron-builder": "^21.2.0",
+        "wait-on": "^3.3.0"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "build": {
+        "appId": "bosdman@1.0.0",
+        "mac": {
+            "icon": "./public/static/img/icon.icns",
+            "category": "public.app-category.utilities"
+        },
+        "files": [
+            "build/**/*",
+            "public/**/*",
+            "src/**/*",
+            "node_modules/**/*"
+        ],
+        "directories": {
+            "buildResources": "assets"
+        }
+    }
 }
